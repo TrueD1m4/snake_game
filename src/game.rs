@@ -106,7 +106,7 @@ impl Game {
     }
 
     fn check_if_snake_alive(&self, dir: Option<Direction>) -> bool {
-        let (next_x, next_y) = self.snake.next_head();
+        let (next_x, next_y) = self.snake.next_head(dir);
 
         if self.snake.overlap_tail(next_x, next_y) {
             return false;
@@ -117,11 +117,11 @@ impl Game {
     fn add_food(&mut self) {
         let mut rng = thread_rng();
 
-        let mut new_x = rng.gen_range(1, self.width - 1);
-        let mut new_y = rng.gen_range(1, self.height - 1);
+        let mut new_x = rng.gen_range(1..(self.width - 1));
+        let mut new_y = rng.gen_range(1..(self.height - 1));
         while self.snake.overlap_tail(new_x, new_y) {
-            new_x = rng.gen_range(1, self.width - 1);
-            new_y = rng.gen_range(1, self.height - 1);
+            new_x = rng.gen_range(1..(self.width - 1));
+            new_y = rng.gen_range(1..(self.height - 1));
         }
 
         self.food_x = new_x;
